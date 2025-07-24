@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kick Auto Commenter x3</title>
+  <script>
+    const correctPassword = "FR55"; // غيّر كلمة السر هنا
+
+    // طلب كلمة المرور عند تحميل الصفحة
+    const password = prompt("🔐 الرجاء إدخال كلمة المرور للدخول:");
+
+    if (password !== correctPassword) {
+      alert("❌ كلمة المرور غير صحيحة. سيتم تحويلك إلى صفحة أخرى.");
+      window.location.href = "https://google.com"; // تحويل خارجي أو يمكنك تغيير الرابط
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f2f5;
+      padding: 30px;
+      color: #333;
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    textarea, input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+      resize: none;
+      overflow-y: hidden;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px 0 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
+    button:hover {
+      opacity: 0.9;
+      border-radius: 20%;
+    }
+    .startBtn {
+      background-color: #658d76;
+      color: white;
+    }
+    .stopBtn {
+      background-color: #8d6c68;
+      color: white;
+    }
+    .saveBtn {
+      background-color: #033b3b;
+      color: white;
+    }
+    .log {
+      background: #f9f9f9;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 6px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🎯 X2 Freez الموقع الثالث</h2>
+
+  <!-- 3 نسخ مستقلة -->
+  <div id="commenter1" class="container"></div>
+  <div id="commenter2" class="container"></div>
+  <div id="commenter3" class="container"></div>
+
+  <script>
+    function createCommenter(containerId, instanceId) {
+      const container = document.getElementById(containerId);
+
+      container.innerHTML = `
+        <h3> ${instanceId}</h3>
+
+        <label>  Tokens</label>
+        <textarea id="tokens_${instanceId}" rows="1" placeholder="...">Bearer 235643148|lmKpD605NvG2AlCxORrJzsUlq5Qwjq3dwl6eosEC
+Bearer 235642482|GF3xeMfbvWeNYcl6ZyKdz5pxIW7uCLqlN2FLs7yx
+Bearer 235642688|0gPTkCgsxLMmkigOIS1wJC4TFRgyxtAHDhMCZmih
+Bearer 235642944|mqFNTj4LIvwdrzfFXbgFNUeXnq4jBb5GdpIf1JR3
+Bearer 126440925|GQqj2ExYSIx4GNEZK5mz285tNqfqY7LUIYTMgee6
+Bearer 235641764|4RlmNQqOH1imysKqMzvXbgkolqUDaKpHSwF0DjWK
+Bearer 126446745|XkVBkMBZrPO42XMcmnJfXMqm2NOlTqPT1p3H6DPi
+Bearer 126445427|FFa3lohgxX8Ie2zaskaKu0Ms6HwRpIhKSqtCgmeM
+Bearer 235641625|fjEc6cyAJU4qWrk0Nfwurz6D6gjR0Id79O19PxPP
+Bearer 235641506|DVCY7dhG34jScDpw76UJ07AemwLR3tWUMx8aIsHq
+Bearer 235641131|Dq7brwXkgFjxLMlsTEKixV5MDTQXKXIq9TWb1eUS
+Bearer 235641013|hLtlizyNlHaaoA8zq9XvCs9azzVfwOacZPp22ipd
+Bearer 126462332|X2cKeTZlkKSe2aTovOoYyGoOBsF6myyGdubQKg6B
+Bearer 235643300|TRwaXUH4oQK2yaY2kXoFhyQGou8Q5RZxlzifpo9S
+Bearer 235640587|2fyQWLSgU2LyANrKuTOfxIDLyJjjeYjzvB967m5c
+Bearer 235640866|Mm2iEVOBcYGdmd3fsozvxaZaVKYFNYttvviHDnmB
+Bearer 235640223|LKkdSytjbvnZ0Tu7Z7ZdNhxW6aCjzjpxo4s3gXBQ
+Bearer 235640012|BhRMSNokKjqBqKnkJ2zEKX3O8vS9ajtYMjlJMT1C
+Bearer 235639792|IvV4bulSOY6rCcp5BXiaMa1wyQPvEHkeVLSTsXF3
+Bearer 235639279|pwvQwW9mYbpEKU006XCgvwkVgMHCu5LwU0sQbVdR
+Bearer 235637471|4v8Ff1L6KXWEMQXzCC6rjtQkkHQqHvuU6DID000M
+Bearer 235637813|BByGt3kBRZZwV80rljk4NeOwEOa3X71y6KIdExDZ
+Bearer 235638422|w4b0mTMpbIbJrTNMURxhQpQ1u1Gv95pBfDJpTShY
+Bearer 235638797|XsUUCrztaK2V6cjVqnsgzswuOPByt7QuwqVchShv
+Bearer 235638910|ebpuPfcQ9jbglGzfKFr5AJjNTiODsXokQJ8ujKgR
+Bearer 235637691|VkQJqdYOTOmUBYPTG6Solh5S5ldzWQtafdAupDKa
+Bearer 235636621|i1fpksPHfQN8Qb7Jxft36egzxflQMethup5zslTK
+Bearer 235637130|ZiEwNP7COQdqLz0eG4X9q9GBabSmrmh6pIkWm9Mn
+Bearer 235637966|1EmfbDXctojGTvxvmwsMqUxo1wpB1qbAMcjckzZA
+Bearer 235635463|wPCKwNzwGl8FdZLNijo5Vc1yBZxH35ruuJsMNQaH
+Bearer 235635181|Tfpy9fhV5lpaOYiZBghzpspZMzcTvK1SAec4BzFE
+Bearer 235634892|BtryWgQnq6GpnqyDPh4sTRCYWZUJk21aSfnhCTwm
+Bearer 235649285|xV3KfhWjYJnQ1J5tbXJ45yvBZxfLsMfwnEtSUADE
+Bearer 235645842|iVwpcw8y0JrJgbUVNVGwLgSFdWwjAg4Bu30GGNse
+Bearer 235644743|nMcX88DNlr031XMVknhUMle9SYn8QwWK4fy0ycxp
+Bearer 235645526|PvDBiWiG0Mu4sujVBjKCd69gLM1vAMYrFSeJB2nN
+Bearer 235646084|qeRANCLQ2fQIxVYJwnivZijIcIxJRYWcKUAOl7rF
+Bearer 235645629|EChrsA9igmvlNjldaew7ZFlQJOSpw4hCbxJdbdzv
+Bearer 235645041|aWiBSFbvBGTkKDwsf8JzAjXrsTd4EPIf5oL5HzrQ
+Bearer 235645198|VEKByduSPlscEDFfeOOiyJqy8IwfSo5CWp1KWTQ4
+Bearer 235646646|r9eoskoYwFB3MIRcTQ5crUsj5yT9eTUJXaLSeohu
+Bearer 235649283|Q9vOnWdQgFY0Sd8kjDVdMRpvObq8y2gchh9FXMyr
+Bearer 235647102|BPDvu0hIBEA3kUiEzSLnBz7bt7Ir4ncBRD3a4Uk0
+Bearer 235649612|Yll4o6jOtWZzwb6ydjGy0CN5kcKnXi5QLJT8cilr
+Bearer 235648927|uP68V2Aqm7KY4EmTUaa0imV4vv4snXo0xljRKV31
+Bearer 235649916|2cA244Bi1z0GmPrNM5Lvm3kS68g8Uay4iDmMJq0Z
+Bearer 235648734|v0d7Kdj7fS9rgyeEobMGsHcZKGyjmsHya4VOCRhZ
+Bearer 235648546|9o4rIXpNMVQn6708DvwkTfxJFCQ1Riic3Q6N1eFb
+Bearer 235646859|OXB4rhSBJ9UiOj04ee71hQwhLLMp3qpQPEX1Zowo
+Bearer 235648922|8XXYfSRv1mqMKoNuFuN4bYNpVlUnmwpY2baUlgcG
+Bearer 235649941|h2k8TlXHupiMm4DmBO2zF9UvwA9lIqW3j9qvNE4w
+Bearer 235646966|0A6ZP1ColFIiDlsyvMGfuxgfnLUQxqE21eorQpmT
+Bearer 235644860|xRs526bh3Uez4UVJSa8aj6uGO4HH7BvoexW07vwW
+Bearer 235648070|2nGf4F8MjTgXuoIiodSezQh3LbalhO2oImTrqYgf
+Bearer 235647705|ZoG9DmGd8hVsGoDGGYCvbN5L2R9w72bHoOM6c4OX
+Bearer 126040550|dY7XCvi3DO67bm5ISFQFoj36aXUXgn9Hdmg2Slvw
+Bearer 235647832|2tWX7N8wWdrbOzP5Fwbhuvqs6CLtidIA71ggVuxR
+Bearer 235647526|1GEznozGh3wNMj60tFpWgT0xW8AxV1SeXzAMW5J5
+Bearer 235646517|G08H5jbLQFt9B5vBqvE4SmLSyT2n8GAkg88GhCMz
+Bearer 235647401|APWtY1CzBaZ1fQcIvltNDTaOxmwxSgIOblGDhgKe
+Bearer 235647523|elNouGazAD4pxxZGFQmWjIgh9nrXvSKrmUy5bOgg
+Bearer 235646524|cFT4LdFiaLFUQmwkOEo8BgZ0eGYeVpNLViSoXeDq
+Bearer 235647297|A8ODp5xsZbfTbK2kRTXUjSMFGdEMt1nx7bR3rHaa
+Bearer 235646251|3d2tYSE6CRaqxgzDkc7NlhZ95PEqC1ODaTQ9vL9Q
+Bearer 235650623|fcbKg3nNvQIvgXVQlTqXZ1c8WCOIJFe1kmCpFcZe
+Bearer 126043494|nf9XH60Qe4kELKMRLFDuaqvVl6iTa4NnQgBLIZM7
+Bearer 235650863|mmr1YQnFS44w5kjRPrjc4k3NJ9yvH52SRmSEWW9a
+Bearer 235648076|mLTUVMqrccvmiv3lqS20PD2PMdwQuAYKWb7ekbYU
+Bearer 235647839|OrsDPmGfUOsI2czyFe5B8ZPwDU4gGZrpxRngVIsT
+Bearer 235650867|U5CWy0k23DCwAtMxTSAQxZq3pPmuUk3gcbN8Ph71
+Bearer 235646783|YUwv2vJLHViFuvWhcfCK8F0YA0jLzusGpmFsUPoa
+Bearer 235645297|lXRPOGixI0ud1sQnAs8gvXzJDDBG3xoBHwphDQf1
+Bearer 235648549|SDsQ1v1ww4MAWJb1IfnRACfwKe9hGnMVRwiDKXq9
+Bearer 235650628|bP2BdnhqtSQvMaCg58YzMBMyQslGCJ0GePBWxFXK
+Bearer 235647708|338W3oKge8NKug09JUtrJrSkIYqM1TyDms4MvNdA
+Bearer 235648739|Pp2moTR3t8e1Lipnvv0cpugEmT3CeUKo0BjvodkH
+Bearer 235654602|M2I2Vr3MFzvGNR3DmzHUZE2ZquyIRnHbuqNGic7e
+Bearer 235654451|H1zLbMNHlxfrHlQo9i0GILrGr9Lo8Xc1W9IkFhMK
+Bearer 235654233|iOJ15q86NEhDtKk9vIFfkXExYQrsHQi5tJnsPPE3
+Bearer 235653662|AeXFT09GEJpCDmHg6U68cd4ZkOt4zAqUNJ29Axm0
+Bearer 235653950|T0jNspCVhvgTEzAik2IsrWFo1kRy9vViJckxVjGV
+Bearer 235654815|mVIS9cI2YFG0BkywDfEcWarNWzf0QpYiYaf2vNZX
+Bearer 235653362|BgVHUK8VmB7od3IBCFZxtqhuRDowwL6I4A6HjaNJ
+Bearer 235653203|MlkW911W5brfmRSwAQPDoToSgXhRFkqXgl8udwdD
+Bearer 235653916|F8qVSYxSzlN91adQj1thZACoykKoWA8zYH3KXGOI
+Bearer 235651190|c4LjiA7QPrLKejRJVLMko9WDlWfBAgJlhgj7JpcW
+Bearer 235652946|N9KYvrIG9c8CLdIjCpremXkSzGze3Ei9Wh3Om8jM
+Bearer 235652701|ncbNb5FgTg6sI2nU1bNSjqqy6PMycSW8pXqoXqnT
+Bearer 235652297|LF0DbNEKdB1COEXovM1NxRkhYhIJ8xiVI7P448OS
+Bearer 235652572|J3HS73RD8PiimpX5c5zBIxopZDwQhgRLjzf7Mxrt
+Bearer 235652052|XOofssfuMRQeQwFgUJXTsin23Bnau67PINe6x5ub
+Bearer 235651368|r8rpoHWWt7PyCXHKl0GRpcM9gFNjL2T3TibTP6nS
+Bearer 235651850|SuQVMiz4sttxQOE9cjqFISledIN2gOUETy1oA6Zt
+Bearer 235651678|KdMxWsiz3SyroWAGgaX9IIhGQO6pINMUZCQmrdY3
+Bearer 235654046|f9TF1AW8B4YoM3whymR77qC8j5jf06jt0UPIG0OT
+Bearer 235654446|N8GWvVAKqL07wumm3UxIidPbpNdjxifCEMdL0ouW
+Bearer 235653498|DOvYJ9mYVM2p1PE1ylUYpyvT5wBIdN5qrtFgCyhI
+Bearer 235659777|XCBMgTRPw688JFZaqk9nPBLG9S7BGsl2tXZZdKrW
+Bearer 235657462|yhZ97MCYbyHHsoOHFITk7meTLaMLUEa1f8HwiFLb
+Bearer 235656735|M3dpOhGh2vEvunEB3E4WLLwS509LMy650UOMhaXU
+Bearer 235656394|acjMGKzGwiIkqWzQC5XnrwGuu3Ce5EvB0caKUfqP
+Bearer 235656732|ceovOwmIJjdmfml6EllZUrIKlGpLIuEbvvL4k8AS
+Bearer 235658026|Z2FxpQI8CSJuZNczu71wfW8rwRCXy1u3MjVRv42W
+Bearer 235656236|WAQSxT2JgicXvEt5wDeTqdB3GLtYmHpCOBODjE8X
+Bearer 235658368|3HHFZFNBmmlOMlyxEspe0fQHwxxchxIuLcBLK5NT
+Bearer 235660289|6rVmZQ4aT7NjAWewBPV0hw5tP6hkRmWzZL0kBc4G
+Bearer 235657006|e1KvYIzmDdwra4elW67YCnS7foyhszZ18ovSbQXW
+Bearer 235656891|ksyA3plWWJwBscq8rPb1t5RnQDnQwaYvIGZVasSh
+Bearer 235655907|2UYTGrmh25ZhKzSTnnyEfdq6MO2eCOhZcOFitTN5
+Bearer 235655910|5e48HNY3STLyPlS8IKg3RyRV3OXJaGqanzBHOqg9
+Bearer 235657205|vWhDvsUatqbXrLVaXJDLlrNdLqmiwgKMSyX7h9f9
+Bearer 235657797|mtpivdAKtZnzYnoCmIEQ9S6kQq5fxbwnsj8Nl0JL
+Bearer 235656067|P3MH5QFxwJZk1VH7UjmtZ9g7hbyMM3OwgijXyH10
+Bearer 235657168|omDVpO6d92VdA6RiyLEgyulb3mOYETRxUUv7sChX
+Bearer 235657942|xFCE9jRCl6HqPVjY7o4MNtKIsWFyeiPja1ije4NY
+Bearer 235659267|tWuWznWviDtSMoyYBqzZN0ecXhOq4EIfFOMjHEkE
+Bearer 235658099|bccT2TSWSrdTPDF1h3L7OhTv0b8bmK2rXOfelTxc
+Bearer 235658623|BwrDYLd9J3G875zfuIdxgdob3SNvYBkog2kHWroR
+Bearer 235656373|t8tYIIcng4fhPc9ZpWYyMVpSr414LFIGx24ef4Yq
+Bearer 235657004|Yf3ETyVGW8wDquVW5hctAchvSteuAvBIYcODSQ5r
+Bearer 235658754|DpucmLdvhSyib8iIj4gEhyXbuYK2G5qXihqAdm01
+Bearer 235658153|Aq9XyrUq6cDOUAFaqA8JSAYD1udYohDCz8cuSbUG
+Bearer 235655606|eyJnDvX2eJoRUQK20jabLRO3qOBj4CKlckbpE7My
+Bearer 235656244|v9lF2YcJ8DTjXWCPvB47WKCCLs7IncELx07BvXVw
+Bearer 235657786|TYA1hpCr3SjJoER132UIi7Fsocrkp3E5eaSeEUZe
+Bearer 235658756|OVsspxz3T1B565cfoXNmktwWtEacxEMlun3YOB4m
+Bearer 235659273|ceFjQeM7EaPMKc6IalmJPjzoRt3mcMwrTqSGt3BF
+Bearer 235660014|JSIQIVBAZ8CXVKbQK9hX7UB3bjcEu5qE4GMzmfkm
+Bearer 235657461|lkhzhcTWg0OAkuGGLDmhxjjdGbfu3T0P5SYIJwGJ
+Bearer 235656072|WbpKcXQvHU49wx52RZnxBfMZHlyah5L3oPQTuvsf
+Bearer 235660019|YBgmTt0A0gCEShDyfkYqtWaCSlTih2dHah94fomb
+Bearer 235655561|5HpiIzoBe5xsLNtyAq7I5hYnYK0bBCOoHyi5yTOn
+Bearer 235660307|oJqf9UF4EHXUsL8smY63ORILhdV0iZqr7gV7lqlF
+Bearer 235660767|Vx4RFKzEZudZeRWRkvShGNJcPED6NJJhseQJ8PhR
+Bearer 235662096|Uuas4OcznUfItZaCtAAzM1EadoKGrtQFGCM9L6uz
+Bearer 235662553|QeuRvDOwr8pfq62PwPCnGP1pa7POqD5c8tuoTjZT
+Bearer 235661205|odmtHYwEqCsuHfW0iHGdqDqEuOFvCEWeQ2TTzPXj
+Bearer 235661655|fI9ZhgQKObh4Hye2MjZEyUnJFUHD1mbeQ8RBHpoz
+Bearer 235661629|Vk850qvMfc44sN8Q7J3lKHYXaReBzSELIPWPVjJW
+Bearer 235661196|FgSC5pY2gMbNCS0KjaOGhpyyDtiQUQpk4ehgKHAB
+Bearer 235660887|8P48awrqeqIKvb9ERrLipefXsmnZe27hEEAIsNpi
+Bearer 235662101|Ik8CtnfXfoTuaaao4sRNCq3T3Z2HNKHkyQ7reD3p
+Bearer 235660893|yf2OjxUh889sWRop6CwOhLyJPvjqGCvRM4msQfmE
+Bearer 235660772|Dbgop2HBLrdR0jBgKVqzxh74LE4CknGh1mHGGOad
+Bearer 235662107|6JGfx6lDDtCaoZKtVD7X3rqgGzBTGPyTiWsW0a7f
+Bearer 235662539|0lf2GTmZUdqSgh2QPJUbK75lI3SbIDuR1yi9mt4a
+Bearer 235662961|c0vg6muLv7eH82K3J5h7QVUr2d03YKpNhFcAfEIi
+Bearer 235662953|1Ulr5UrpwEEpRs4tSQOWlOB9EXtXOGevuG4PrrTW
+Bearer 235663382|rruqYqZRWes43RCBIQpFtAeAjUqiQMZZ5niHDRj2
+Bearer 235663392|JHGA3zIUtTEvTfdQ7tVkaRj0PiUzSScOu9bqYkui
+Bearer 235660635|FuEPaW2UvFBbjYgPOEFjMv8gvRknwQx74EoXVHe7
+Bearer 235663406|NcTECqTYlnU3ce9S5XSVwHkBuhMT56bOAH1fSAWJ
+Bearer 235663951|jySES5LwpnK3GLxatsc1QGRkOXHIrSSHrcUVQe7R
+Bearer 235663954|x7lhDRaD86n5uVScxycXeaDb9RWEnnvkIXCwwe43
+Bearer 125856687|ZYpO5AAgIX2R6PcCq5HFkK5oJrH8Gpl3u5pyg8dY
+Bearer 125762575|uL2EgRknQErQ19tjbrD1FkxCYYu84WA8Ua0AihZq
+Bearer 125353058|PzCxtv49vny460Jxa5wuLatYwcdZn0sa7KCWR7Ut
+Bearer 125351435|6AKjwa7AsIa8GhvgUf5ZcSkjyeyw7Etz3bx3cQUa
+Bearer 125356381|NpeSSj4lLMPitWUeVMUimAe7gr8S4JjCbpVUXRzE
+Bearer 125861420|24bcLlEZwXnv22SzKIjP2g8oG74dnhCnuOV450cG
+Bearer 125857971|XLwUbwN1t6urZJciPVwdWU2CPWMjX1Yhiz23mXFt
+Bearer 125856244|u91vJOWtHQXCc4ZalUYhRQZSVbsi3BRSHTyfpLQa
+Bearer 125753828|8JGBgWMrKIzUZ2e98zaYj0uy8YePUw1tlo8Hmg0K
+Bearer 125858675|qlW1GsH4FEe5j9GRSU45uUJ2xy8b90BtMAWuuYB3
+Bearer 125746777|Us9CBlewOnmZndK9EGPwVQXXKeqOqhk0kbtS8DoS
+Bearer 125855856|2TrP68Pg0cFDzZBvz4DUODYqmCX0EpYW7sH11ZG8
+Bearer 125855244|YnKZB4ouXjkZVHHqGhpIpBCBNzlzhdh7fbU2gIKC
+Bearer 125854802|Cx5Gj9ewW3epTEYxpfISgIEjJjVD9NW3udHLmEgf
+Bearer 125853365|6o1imc2JuoViSO7GrsNEsgNhHMwkGZVN01LSEElb
+Bearer 125749370|FabrTW5EHVWn7WEQAQk1FcIPZSCtx3l6jCn34p5r
+Bearer 125858243|Yku56GyxB8QK18GRTqs23McW3lMGywqzgvQCoGhu
+Bearer 125850811|l7XkYHhwtCSsIR3GNDEy0QaozO0hHjYLeVl4jpyu
+Bearer 125751226|Khf0JYQOFYAgFq5yDWEuM4lDqlJ1lO23KknO0qvT
+Bearer 125337461|hwiGDcazSTE2oYEfWXeuwhkzg7Pq0L93JBq4kWaS
+Bearer 125852726|FyKSZwCvOuWl00aUe5rvITuqc216luaok8abuxpz
+Bearer 125764189|U9KtSADz1crcC79NANCt2D75NMwQN40qV9u1vJCz
+Bearer 125852182|yWCCiL8ZEfGsv9S1cyDDEUywuvzlVPYkroMvfN5X
+Bearer 125765845|unKal2HcBvWN0PqlkLaad2Kuj1XVSoICJkApCopi
+Bearer 125756391|uV7imdka3nM4XMcqYGgKORLJ5EHHcIIgMQxI16yz
+Bearer 125755928|N9UpKVsphDAgLikqc5UYMMM8qZRuQefxvsMj9V5Y
+Bearer 125760419|tNHzR9WHV4hRfgrPHljH2XRzwJLOSxAQGUrvlNPX
+Bearer 125761399|1G61MqGwdIaTRxjbI89zwyFHD4kAYUAUT0Zb1u9s
+Bearer 125760881|IWwl3zLSfvvHRbAHvE982hlIeGEW5sTYdTU2ARQQ
+Bearer 125741018|CgA8HtsLTEs94eZRRUDvPZV7fIqmzNXeE5Dv2x0K
+Bearer 125743746|gbXnuxmsZzR15dW6lpUX02erBkmSDk8jsMvTtVnP
+Bearer 125738424|kfi7KfyGyrvbPjsXREDX9Sp31Gh6npqNW2gapFP9
+Bearer 125738424|kfi7KfyGyrvbPjsXREDX9Sp31Gh6npqNW2gapFP9
+Bearer 125752037|V3rtH3mdI1M3qWPWryiLvO2J92sJQGQQ8BisxDZi
+Bearer 125745319|cnd2KG4RmWL8iKAMhgi1XrXPhJSo18JueSFcMh6n
+Bearer 125741931|i6PXwYP23A0638Em3zF0m0d3aXV26bOWYsLyfUzN
+
+</textarea>
+
+        <label>💬 Comments </label>
+        <textarea id="comments_${instanceId}" rows="4" placeholder="منور البث\nتابعني و لايك 🔥"></textarea>
+        <button class="saveBtn" onclick="saveComments(${instanceId})">💾 حفظ التعليقات</button>
+
+        <label>📺 Channel Name</label>
+        <input type="text" id="channel_${instanceId}" placeholder="username" value="FreeZe" />
+
+        <label>⏱️ سرعة الارسال</label>
+        <input type="number" id="interval_${instanceId}" placeholder="مثلاً: 3" value="3" min="1" />
+
+        <button class="startBtn" onclick="start(${instanceId})">▶️ Start</button>
+        <button class="stopBtn" onclick="stop(${instanceId})">⛔ Stop</button>
+
+        <div id="log_${instanceId}" class="log"></div>
+      `;
+
+      loadSavedComments(instanceId); // تحميل التعليقات المحفوظة بعد إنشاء المحتوى
+    }
+
+    // إنشاء 3 نسخ
+    createCommenter("commenter1", 1);
+    createCommenter("commenter2", 2);
+    createCommenter("commenter3", 3);
+
+    const state = {
+      1: { intervalId: null, isRunning: false, previousComments: {} },
+      2: { intervalId: null, isRunning: false, previousComments: {} },
+      3: { intervalId: null, isRunning: false, previousComments: {} }
+    };
+
+    function log(message, id) {
+      const div = document.getElementById(`log_${id}`);
+      div.innerHTML += `📝 ${message}<br>`;
+      div.scrollTop = div.scrollHeight;
+    }
+
+    function saveComments(id) {
+      const comments = document.getElementById(`comments_${id}`).value;
+      localStorage.setItem(`comments_${id}`, comments);
+      log("✅ تم حفظ التعليقات بنجاح", id);
+    }
+
+    function loadSavedComments(id) {
+      const saved = localStorage.getItem(`comments_${id}`);
+      if (saved) {
+        document.getElementById(`comments_${id}`).value = saved;
+        log("📥 تم تحميل التعليقات المحفوظة", id);
+      }
+    }
+
+    function getRandomComment(comments, token, id) {
+      const prev = state[id].previousComments[token];
+      let available = comments;
+      if (prev) {
+        available = comments.filter(c => c !== prev);
+        if (available.length === 0) available = comments;
+      }
+      const comment = available[Math.floor(Math.random() * available.length)];
+      state[id].previousComments[token] = comment;
+      return comment;
+    }
+
+    async function getChatroomId(channel) {
+      const res = await fetch(`https://kick.com/api/v2/channels/${channel}`);
+      const data = await res.json();
+      return data.chatroom.id;
+    }
+
+    async function start(id) {
+      if (state[id].isRunning) return;
+      state[id].isRunning = true;
+
+      const tokens = document.getElementById(`tokens_${id}`).value.trim().split("\n").map(t => t.trim()).filter(Boolean);
+      const comments = document.getElementById(`comments_${id}`).value.trim().split("\n").map(c => c.trim()).filter(Boolean);
+      const channel = document.getElementById(`channel_${id}`).value.trim();
+      let interval = parseInt(document.getElementById(`interval_${id}`).value);
+
+      if (!channel || tokens.length === 0 || comments.length === 0 || isNaN(interval) || interval < 1) {
+        alert(`(نظام ${id}) يرجى تعبئة جميع الحقول بشكل صحيح!`);
+        state[id].isRunning = false;
+        return;
+      }
+
+      interval = interval * 1000;
+
+      try {
+        const chatroomId = await getChatroomId(channel);
+        log(`✅ Chatroom ID: ${chatroomId}`, id);
+
+        let index = 0;
+
+        state[id].intervalId = setInterval(() => {
+          if (!state[id].isRunning) return;
+
+          const token = tokens[Math.floor(Math.random() * tokens.length)];
+          const comment = getRandomComment(comments, token, id);
+
+          fetch("https://kick.com/api/v1/chat-messages", {
+            method: "POST",
+            headers: {
+              Authorization: token,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              message: comment,
+              chatroom_id: chatroomId,
+            }),
+          })
+            .then((res) => {
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              log(`✅ [${index + 1}] Sent: "${comment}"`, id);
+            })
+            .catch((err) => {
+              log(`❌ Error: ${err.message}`, id);
+            });
+
+          index++;
+        }, interval);
+      } catch (error) {
+        log(`❌ خطأ في جلب Chatroom ID: ${error.message}`, id);
+        state[id].isRunning = false;
+      }
+    }
+
+    function stop(id) {
+      if (!state[id].isRunning) return;
+      clearInterval(state[id].intervalId);
+      state[id].isRunning = false;
+      log("⛔ تم الإيقاف.", id);
+    }
+  </script>
+</body>
+</html>
